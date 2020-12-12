@@ -35,4 +35,4 @@ def plot_skeleton(c, color):
     for p in c.skeleton:
         for child in p.children:
             line = [(p.x, p.y), (child.x, child.y)]
-            plt.plot(*zip(*line), color=color, alpha=0.3)
+            plt.plot(*zip(*line), color=color, alpha=0.5, linewidth=1)
