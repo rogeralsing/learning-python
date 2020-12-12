@@ -14,7 +14,7 @@ def with_convex_hull(buffer=30, simplify=10):
     return f
 
 
-def with_unions(buffer=150, shrink=-120, simplify=10):
+def with_unions(buffer=100, shrink=-70, simplify=10):
     def f(c):
         points = list(map(lambda p: Point(*p).buffer(buffer), c))
         shape = reduce(lambda a, b: a.union(b), points)

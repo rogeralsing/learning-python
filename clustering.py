@@ -8,10 +8,17 @@ class ClusterPoint:
         self.y = y
         if children is None:
             children = []
-        self.children = children
+        self.linked = children
+        self.done = False
 
-    def add_child(self, child):
-        self.children.append(child)
+    def link_to(self, child):
+        self.linked.append(child)
+
+    def dist(self, other) -> float:
+        return hypot(self.x - other.x, self.y - other.y)
+
+    def in_range(self, other, max_dist):
+        return self.dist(other) < max_dist
 
 
 class Cluster:
@@ -24,26 +31,28 @@ class Cluster:
     def add_point(self, cp: ClusterPoint):
         self.skeleton.append(cp)
 
+    def __len__(self):
+        return len(self.skeleton)
+
 
 def cluster(points, max_distance=100):
     ps: Set[ClusterPoint] = {ClusterPoint(x, y) for (x, y) in points}
 
-    def dist(p1: ClusterPoint, p2: ClusterPoint) -> float:
-        return hypot(p1.x - p2.x, p1.y - p2.y)
+    def recurse(point: ClusterPoint, bag: Set[ClusterPoint], cluster: Cluster):
+        point.done = True
+        cluster.add_point(point)
 
-    def recurse(current_point: ClusterPoint, bag: Set[ClusterPoint], current_cluster: Cluster):
-        current_cluster.add_point(current_point)
+        close_points = [other for other in bag if point.in_range(other, max_distance)]
 
-        children = list(filter(lambda p2: dist(current_point, p2) < max_distance, bag))
+        for close_point in close_points:
+            point.link_to(close_point)
 
-        for child_point in children:
-            if child_point not in bag:
+            if close_point.done:
                 continue
 
-            bag.remove(child_point)
+            bag.remove(close_point)
 
-            current_point.add_child(child_point)
-            recurse(child_point, bag, current_cluster)
+            recurse(close_point, bag, cluster)
 
     clusters: List[Cluster] = []
 
