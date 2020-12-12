@@ -1,4 +1,5 @@
 from math import hypot
+from typing import List, Set
 
 
 class ClusterPoint:
@@ -17,17 +18,17 @@ class Cluster:
     def xy(self):
         return [(cp.x, cp.y) for cp in self.skeleton]
 
-    def add(self, cp):
+    def add(self, cp: ClusterPoint):
         self.skeleton.append(cp)
 
 
 def cluster(points, max_distance=100):
     ps = [ClusterPoint(x, y) for (x, y) in points]
 
-    def dist(p1, p2):
+    def dist(p1: ClusterPoint, p2: ClusterPoint):
         return hypot(p1.x - p2.x, p1.y - p2.y)
 
-    def recurse(current_point, bag, current_cluster):
+    def recurse(current_point: ClusterPoint, bag: List[ClusterPoint], current_cluster: Cluster):
         if current_point not in bag:
             return
 
@@ -39,7 +40,8 @@ def cluster(points, max_distance=100):
             current_point.children.append(child_point)
             recurse(child_point, bag, current_cluster)
 
-    clusters = []
+    clusters: List[Cluster] = []
+
     while len(ps) > 0:
         p = ps[0]
         c = Cluster()
