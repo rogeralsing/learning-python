@@ -16,11 +16,12 @@ def plot_poly(plt, poly, color):
 def plot(clusters, f):
     palette = [color for name, color in mcolors.TABLEAU_COLORS.items()]
     for i, c in enumerate(clusters):
-        plt.scatter(*zip(*c))
+        points = c.xy()
+        plt.scatter(*zip(*points))
 
-        simplified = f(c)
+        polygon = f(points)
 
         color = palette[i % len(palette)]
-        plot_poly(plt, simplified, color)
+        plot_poly(plt, polygon, color)
 
     plt.show()
