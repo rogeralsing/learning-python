@@ -31,8 +31,9 @@ def cluster(points, max_distance=100):
         bag.remove(current_point)
         current_cluster.add(current_point)
 
-        for m in filter(lambda p2: dist(current_point, p2) < max_distance, bag):
-            recurse(m, bag, current_cluster)
+        for child_point in filter(lambda p2: dist(current_point, p2) < max_distance, bag):
+            current_point.children.append(child_point)
+            recurse(child_point, bag, current_cluster)
 
     clusters = []
     while len(ps) > 0:
