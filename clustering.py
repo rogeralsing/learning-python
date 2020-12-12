@@ -28,10 +28,14 @@ def cluster(points, max_distance=100):
         return hypot(p1.x - p2.x, p1.y - p2.y)
 
     def recurse(current_point, bag, current_cluster):
+        if current_point not in bag:
+            return
+
         bag.remove(current_point)
         current_cluster.add(current_point)
 
-        for child_point in filter(lambda p2: dist(current_point, p2) < max_distance, bag):
+        children = list(filter(lambda p2: dist(current_point, p2) < max_distance, bag))
+        for child_point in children:
             current_point.children.append(child_point)
             recurse(child_point, bag, current_cluster)
 
