@@ -18,7 +18,7 @@ def plot(clusters, f):
     for i, c in enumerate(clusters):
         plt.scatter(*zip(*c))
 
-        simplified=f(c)
+        simplified = f(c)
 
         color = palette[i % len(palette)]
         plot_poly(plt, simplified, color)
