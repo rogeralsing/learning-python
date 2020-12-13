@@ -9,12 +9,14 @@ def plot(clusters, f, ax):
 
         polygon = f(c.xy())
 
-        if not polygon.is_empty:
-            patch = PolygonPatch(polygon.buffer(0), color=color, alpha=0.2)
-            ax.add_patch(patch)
+        if polygon.is_empty:
+            continue
 
-            plot_skeleton(ax, c, color)
-            plot_points(ax, color, c.xy())
+        patch = PolygonPatch(polygon, color=color, alpha=0.2)
+        ax.add_patch(patch)
+
+        plot_skeleton(ax, c, color)
+        plot_points(ax, color, c.xy())
 
 
 def plot_points(plt, color, points):
