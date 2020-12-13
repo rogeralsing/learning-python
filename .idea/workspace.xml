@@ -4,6 +4,7 @@
     <list default="true" id="35c70f2b-207a-4b8c-abde-67c745ca6733" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clustering.py" beforeDir="false" afterPath="$PROJECT_DIR$/clustering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +86,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1607853044859</updated>
-      <workItem from="1607853060470" duration="9819000" />
+      <workItem from="1607853060470" duration="13720000" />
     </task>
     <task id="LOCAL−00001" summary="no idea what im doing...">
       <created>1607853342240</created>
@@ -123,7 +124,13 @@
       <option name="presentableId" value="LOCAL−00006" />
       <updated>1607872858817</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL−00007" summary="simplify code">
+      <created>1607873895412</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1607873895412</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,9 +152,10 @@
     <MESSAGE value="use patches to render" />
     <MESSAGE value="erode clusters" />
     <MESSAGE value="replace distance lookup with KDTree" />
-    <option name="LAST_COMMIT_MESSAGE" value="replace distance lookup with KDTree" />
+    <MESSAGE value="simplify code" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplify code" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/learning_python$app.coverage" NAME="app Coverage Results" MODIFIED="1607873305645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/learning_python$app.coverage" NAME="app Coverage Results" MODIFIED="1607882576470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

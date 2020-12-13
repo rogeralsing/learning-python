@@ -1,5 +1,3 @@
-from typing import Set
-
 from scipy.spatial import KDTree
 
 
@@ -8,11 +6,6 @@ class ClusterPoint:
         self.x = x
         self.y = y
         self.linked = set()
-        self.done = False
-
-    def link(self, other):
-        self.linked.add(other)
-        other.linked.add(self)
 
     def unlink(self):
         for child in self.linked:
@@ -23,55 +16,24 @@ class ClusterPoint:
         return len(self.linked)
 
 
-class Cluster:
-    def __init__(self):
-        self.skeleton = []
-
-    def __len__(self):
-        return len(self.skeleton)
-
-    def xy(self):
-        return [(cp.x, cp.y) for cp in self.skeleton]
-
-    def add_point(self, cp: ClusterPoint):
-        self.skeleton.append(cp)
-
-    def erode(self, links=1):
-        points: Set[ClusterPoint] = set(self.skeleton)
-
-        done = False
-        while not done:
-            done = True
-            for p in list(points):
-                if len(p) <= links:
-                    points.remove(p)
-                    p.unlink()
-                    done = False
-
-        self.skeleton = points
-        return self
-
-
 def cluster(points, max_distance: float = 100):
     cluster_points = [ClusterPoint(*p) for p in points]
     tree = KDTree(points)
-    links = tree.query_ball_point(points, max_distance)
+    for i, l in enumerate(tree.query_ball_point(points, max_distance)):
+        cluster_points[i].linked = {cluster_points[x] for x in l if x != i}
 
-    def recurse(index: int, current_cluster: Cluster):
-        current_point = cluster_points[index]
-        current_point.done = True
-        current_cluster.add_point(current_point)
+    remaining_points = set(cluster_points)
 
-        for other_index in links[index]:
-            other_point = cluster_points[other_index]
-            current_point.link(other_point)
+    def recurse(current_point: ClusterPoint, current_cluster):
+        if current_point not in remaining_points:
+            return
 
-            if other_point.done:
-                continue
+        current_cluster.append(current_point)
+        remaining_points.remove(current_point)
 
-            recurse(other_index, current_cluster)
+        for other_point in current_point.linked:
+            recurse(other_point, current_cluster)
 
         return current_cluster
 
-    return [recurse(i, Cluster()) for i, cp in enumerate(cluster_points)
-            if not cp.done]
+    return [recurse(cp, []) for cp in cluster_points if cp in remaining_points]
