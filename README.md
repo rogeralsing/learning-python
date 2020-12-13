@@ -2,11 +2,6 @@
 
 My playground for learning Python
 
-### Convex Hull
+### Hull algorithms
 
-![resources/convex-hull.png](resources/convex-hull.png)
-
-### Unions
-
-![resources/unions.png](resources/unions.png)
-
+![resources/algos.png](resources/algos.png)
