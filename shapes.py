@@ -1,7 +1,6 @@
-from functools import reduce
-
 from alphashape import alphashape
 from shapely.geometry import Point, MultiPoint
+from shapely.ops import unary_union
 
 
 def with_convex_hull(buffer: float = 30, simplify: float = 0):
@@ -16,8 +15,7 @@ def with_convex_hull(buffer: float = 30, simplify: float = 0):
 
 def with_unions(tolerance: float = 100, buffer: float = 30, simplify: float = 0):
     def f(c):
-        points = [Point(*p).buffer(tolerance) for p in c]
-        return (reduce(lambda a, b: a.union(b), points)
+        return (unary_union(MultiPoint(c).buffer(tolerance))
                 .simplify(10)
                 .buffer(-tolerance + buffer / 2)
                 .buffer(buffer / 2)

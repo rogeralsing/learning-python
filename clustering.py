@@ -3,12 +3,10 @@ from typing import List, Set
 
 
 class ClusterPoint:
-    def __init__(self, x, y, children=None):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        if children is None:
-            children = []
-        self.linked = children
+        self.linked = []
         self.done = False
 
     def link_to(self, child):

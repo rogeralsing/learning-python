@@ -1,4 +1,4 @@
-import matplotlib.colors as mcolors
+import matplotlib.colors as colors
 
 
 def plot_poly(plt, poly, color):
@@ -13,7 +13,7 @@ def plot_poly(plt, poly, color):
 
 
 def plot(clusters, f, ax):
-    palette = [color for name, color in mcolors.TABLEAU_COLORS.items()]
+    palette = [color for name, color in colors.TABLEAU_COLORS.items()]
     for i, c in enumerate(clusters):
         color = palette[i % len(palette)] if len(c) > 1 else "#e0e0e0"
 
