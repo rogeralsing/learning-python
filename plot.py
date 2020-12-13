@@ -7,7 +7,7 @@ def plot(clusters, f, ax):
     for i, c in enumerate(clusters):
         color = palette[i % len(palette)] if len(c) > 1 else "#e0e0e0"
 
-        points = [(cp.x,cp.y) for cp in c]
+        points = [cp.xy for cp in c]
         polygon = f(points)
 
         if polygon.is_empty:
@@ -30,5 +30,5 @@ def plot_points(plt, color, points):
 def plot_skeleton(plt, color, c):
     for p in c:
         for child in p.linked:
-            line = [(p.x, p.y), (child.x, child.y)]
+            line = [p.xy, child.xy]
             plt.plot(*zip(*line), color=color, alpha=0.5, linewidth=1)
