@@ -53,7 +53,7 @@ class Cluster:
 
 
 def cluster(points, max_distance: float = 100):
-    cluster_points = [ClusterPoint(p[0], p[1]) for p in points]
+    cluster_points = [ClusterPoint(*p) for p in points]
     tree = KDTree(points)
     links = tree.query_ball_point(points, max_distance)
 
@@ -71,13 +71,7 @@ def cluster(points, max_distance: float = 100):
 
             recurse(other_index, current_cluster)
 
-    clusters = []
-    for i, cp in enumerate(cluster_points):
-        if cp.done:
-            continue
+        return current_cluster
 
-        c = Cluster()
-        clusters.append(c)
-        recurse(i, c)
-
-    return clusters
+    return [recurse(i, Cluster()) for i, cp in enumerate(cluster_points)
+            if not cp.done]
