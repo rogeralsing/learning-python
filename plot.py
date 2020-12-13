@@ -7,15 +7,14 @@ def plot(clusters, f, ax):
     for i, c in enumerate(clusters):
         color = palette[i % len(palette)] if len(c) > 1 else "#e0e0e0"
 
-        points = c.xy()
-        polygon = f(points)
+        polygon = f(c.xy())
 
         if not polygon.is_empty:
-            patch = PolygonPatch(polygon.buffer(0),color=color, alpha=0.2)
+            patch = PolygonPatch(polygon.buffer(0), color=color, alpha=0.2)
             ax.add_patch(patch)
 
             plot_skeleton(ax, c, color)
-            plot_points(ax, color, points)
+            plot_points(ax, color, c.xy())
 
 
 def plot_points(plt, color, points):
