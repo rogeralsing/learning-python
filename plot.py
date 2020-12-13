@@ -1,4 +1,5 @@
 import matplotlib.colors as colors
+from descartes import PolygonPatch
 
 
 def plot_poly(plt, poly, color):
@@ -20,6 +21,8 @@ def plot(clusters, f, ax):
         points = c.xy()
         polygon = f(points)
 
+        #patch = PolygonPatch(polygon.buffer(0))
+        #ax.add_patch(patch)
         plot_poly(ax, polygon, color)
         plot_skeleton(ax, c, color)
         plot_points(ax, color, points)

@@ -13,6 +13,7 @@ clusters = cluster(points, 100)
 
 fig, ax = plt.subplots(3, 1, constrained_layout=True)
 fig.set_figheight(15)
+
 ax[0].set_title("Convex Hull")
 ax[0].axis('off')
 plot(clusters, with_convex_hull(), ax[0])
