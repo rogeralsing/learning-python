@@ -4,32 +4,32 @@ from alphashape import alphashape
 from shapely.geometry import Point, MultiPoint
 
 
-def with_convex_hull(buffer=30, simplify=0):
+def with_convex_hull(buffer: float = 30, simplify: float = 0):
     def f(c):
-        mp = MultiPoint(c)
-        hull = mp.convex_hull
-        expanded = hull.buffer(buffer)
-        simplified = expanded.simplify(simplify)
-        return simplified
+        return (MultiPoint(c)
+                .convex_hull
+                .buffer(buffer)
+                .simplify(simplify))
 
     return f
 
 
-def with_unions(tolerance=100, buffer=30, simplify=0):
+def with_unions(tolerance: float = 100, buffer: float = 30, simplify: float = 0):
     def f(c):
-        points = list(map(lambda p: Point(*p).buffer(tolerance), c))
-        shape = reduce(lambda a, b: a.union(b), points)
-        simplified = shape.simplify(10).buffer(-tolerance + buffer / 2).buffer(buffer / 2).simplify(simplify)
-        return simplified
+        points = [Point(*p).buffer(tolerance) for p in c]
+        return (reduce(lambda a, b: a.union(b), points)
+                .simplify(10)
+                .buffer(-tolerance + buffer / 2)
+                .buffer(buffer / 2)
+                .simplify(simplify))
 
     return f
 
 
-def with_alpha(buffer=30, simplify=0, alpha=0.006):
+def with_alpha(buffer: float = 30, simplify: float = 0, alpha: float = 0.006):
     def f(c):
-        hull = alphashape(c, alpha)
-        expanded = hull.buffer(buffer)
-        simplified = expanded.simplify(simplify)
-        return simplified
+        return (alphashape(c, alpha)
+                .buffer(buffer)
+                .simplify(simplify))
 
     return f

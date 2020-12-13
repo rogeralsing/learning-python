@@ -35,9 +35,7 @@ class Cluster:
         return len(self.skeleton)
 
 
-def cluster(points, max_distance=100):
-    ps: Set[ClusterPoint] = {ClusterPoint(x, y) for (x, y) in points}
-
+def cluster(points, max_distance: float = 100):
     def recurse(point: ClusterPoint, bag: Set[ClusterPoint], cluster: Cluster):
         point.done = True
         cluster.add_point(point)
@@ -56,6 +54,7 @@ def cluster(points, max_distance=100):
 
     clusters: List[Cluster] = []
 
+    ps: Set[ClusterPoint] = {ClusterPoint(x, y) for (x, y) in points}
     while len(ps) > 0:
         p = ps.pop()
         c = Cluster()
