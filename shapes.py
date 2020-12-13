@@ -1,5 +1,5 @@
 from alphashape import alphashape
-from shapely.geometry import Point, MultiPoint
+from shapely.geometry import MultiPoint
 from shapely.ops import unary_union
 
 
