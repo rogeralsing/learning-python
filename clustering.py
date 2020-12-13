@@ -1,5 +1,6 @@
-from math import hypot
-from typing import List, Set
+from typing import Set
+
+from scipy.spatial import KDTree
 
 
 class ClusterPoint:
@@ -17,12 +18,6 @@ class ClusterPoint:
         for child in self.linked:
             child.linked.remove(self)
         self.linked.clear()
-
-    def dist(self, other) -> float:
-        return hypot(self.x - other.x, self.y - other.y)
-
-    def in_range(self, other, max_dist):
-        return self.dist(other) < max_dist
 
     def __len__(self):
         return len(self.linked)
@@ -58,28 +53,31 @@ class Cluster:
 
 
 def cluster(points, max_distance: float = 100):
-    def recurse(point: ClusterPoint, bag: Set[ClusterPoint], cluster: Cluster):
-        point.done = True
-        cluster.add_point(point)
+    cluster_points = [ClusterPoint(p[0], p[1]) for p in points]
+    tree = KDTree(points)
+    links = tree.query_ball_point(points, max_distance)
 
-        close_points = [other for other in bag if point.in_range(other, max_distance)]
+    def recurse(index: int, current_cluster: Cluster):
+        current_point = cluster_points[index]
+        current_point.done = True
+        current_cluster.add_point(current_point)
 
-        for close_point in close_points:
-            point.link(close_point)
+        for other_index in links[index]:
+            other_point = cluster_points[other_index]
+            current_point.link(other_point)
 
-            if close_point.done:
+            if other_point.done:
                 continue
 
-            bag.remove(close_point)
+            recurse(other_index, current_cluster)
 
-            recurse(close_point, bag, cluster)
+    clusters = []
+    for i, cp in enumerate(cluster_points):
+        if cp.done:
+            continue
 
-    clusters: List[Cluster] = []
-
-    ps: Set[ClusterPoint] = {ClusterPoint(x, y) for (x, y) in points}
-    while len(ps) > 0:
-        p = ps.pop()
         c = Cluster()
         clusters.append(c)
-        recurse(p, ps, c)
+        recurse(i, c)
+
     return clusters
