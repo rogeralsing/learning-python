@@ -22,8 +22,8 @@ def dbscan(points, max_distance: float = 100, min_pts=3):
         cluster_points[i].neighbours = {cluster_points[x] for x in l if x != i}
 
     def scan(cluster):
-        for point in cluster:
-            cluster.extend([n.take() for n in point.neighbours if not n.taken])
+        for p in cluster:
+            cluster.extend([n.take() for n in p.neighbours if not n.taken])
 
         return cluster
 
