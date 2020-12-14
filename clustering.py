@@ -37,6 +37,6 @@ def sk_dbscan(data, max_distance: float = 100, min_pts: int = 3):
     for i, p in enumerate(data):
         if clustering.labels_[i] != -1:
             c = clusters[clustering.labels_[i]]
-            c.append(ClusterPoint(p))
+            c += [ClusterPoint(p)]
 
     return clusters
