@@ -14,7 +14,7 @@ class ClusterPoint:
         return self
 
 
-def dbscan(data, max_distance: float = 100, min_pts: int = 2):
+def dbscan(data, max_distance: float = 100, min_pts: int = 3):
     points = get_cluster_points(data, max_distance)
 
     def scan(cluster):
@@ -42,5 +42,5 @@ def get_cluster_points(data, max_distance):
     points = [ClusterPoint(p) for p in data]
     tree = cKDTree(data)
     for i, l in enumerate(tree.query_ball_point(data, max_distance)):
-        points[i].neighbours = [points[x] for x in l if x != i]
+        points[i].neighbours = [points[x] for x in l]
     return points
