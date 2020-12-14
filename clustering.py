@@ -1,4 +1,6 @@
+import numpy as np
 from scipy.spatial import KDTree
+from sklearn.cluster import DBSCAN
 
 
 class ClusterPoint:
@@ -12,7 +14,7 @@ class ClusterPoint:
         return self
 
 
-def dbscan(data, max_distance: float = 100, min_pts=3):
+def dbscan(data, max_distance: float = 100, min_pts: int = 2):
     points = [ClusterPoint(p) for p in data]
 
     tree = KDTree(data)
@@ -26,3 +28,15 @@ def dbscan(data, max_distance: float = 100, min_pts=3):
         return cluster
 
     return [scan([p.take()]) for p in points if not p.taken and len(p.neighbours) >= min_pts]
+
+
+def sk_dbscan(data, max_distance: float = 100, min_pts: int = 3):
+    clustering = DBSCAN(eps=max_distance, min_samples=min_pts).fit(np.array(data))
+    clusters = [list() for _ in range(max(clustering.labels_) + 1)]
+
+    for i, p in enumerate(data):
+        if clustering.labels_[i] != -1:
+            c = clusters[clustering.labels_[i]]
+            c.append(ClusterPoint(p))
+
+    return clusters
