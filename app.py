@@ -11,13 +11,13 @@ points = [(random.randint(0, 1000), random.randint(0, 1000))
 
 start_time = time.time()
 clusters = dbscan(points, 100)
-print("--- %s seconds ---" % (time.time() - start_time))
-print(len(clusters))
+print("Custom --- %s seconds ---" % (time.time() - start_time))
+print("%s clusters" % len(clusters))
 
 start_time = time.time()
 sk_clusters = sk_dbscan(points, 100)
-print("--- %s seconds ---" % (time.time() - start_time))
-print(len(sk_clusters))
+print("SKLEARN --- %s seconds ---" % (time.time() - start_time))
+print("%s clusters" % len(sk_clusters))
 
 fig, ax = plt.subplots(4, 1, constrained_layout=True)
 fig.set_figheight(20)

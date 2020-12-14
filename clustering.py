@@ -15,11 +15,8 @@ class ClusterPoint:
 
 
 def dbscan(data, max_distance: float = 100, min_pts: int = 2):
-    points = [ClusterPoint(p) for p in data]
 
-    tree = KDTree(data)
-    for i, l in enumerate(tree.query_ball_point(data, max_distance)):
-        points[i].neighbours = [points[x] for x in l if x != i]
+    points = get_cluster_points(data, max_distance)
 
     def scan(cluster):
         for p in cluster:
@@ -33,10 +30,19 @@ def dbscan(data, max_distance: float = 100, min_pts: int = 2):
 def sk_dbscan(data, max_distance: float = 100, min_pts: int = 3):
     clustering = DBSCAN(eps=max_distance, min_samples=min_pts).fit(np.array(data))
     clusters = [list() for _ in range(max(clustering.labels_) + 1)]
+    points = get_cluster_points(data, max_distance)
 
     for i, p in enumerate(data):
         if clustering.labels_[i] != -1:
             c = clusters[clustering.labels_[i]]
-            c += [ClusterPoint(p)]
+            c += [points[i]]
 
     return clusters
+
+
+def get_cluster_points(data, max_distance):
+    points = [ClusterPoint(p) for p in data]
+    tree = KDTree(data)
+    for i, l in enumerate(tree.query_ball_point(data, max_distance)):
+        points[i].neighbours = [points[x] for x in l if x != i]
+    return points
