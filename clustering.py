@@ -15,7 +15,6 @@ class ClusterPoint:
 
 
 def dbscan(data, max_distance: float = 100, min_pts: int = 2):
-
     points = get_cluster_points(data, max_distance)
 
     def scan(cluster):
@@ -28,9 +27,9 @@ def dbscan(data, max_distance: float = 100, min_pts: int = 2):
 
 
 def sk_dbscan(data, max_distance: float = 100, min_pts: int = 3):
+    points = get_cluster_points(data, max_distance)
     clustering = DBSCAN(eps=max_distance, min_samples=min_pts).fit(np.array(data))
     clusters = [list() for _ in range(max(clustering.labels_) + 1)]
-    points = get_cluster_points(data, max_distance)
 
     for i, p in enumerate(data):
         if clustering.labels_[i] != -1:
