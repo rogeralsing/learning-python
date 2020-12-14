@@ -7,6 +7,10 @@ class ClusterPoint:
         self.linked = set()
         self.done = False
 
+    def include(self):
+        self.done = True
+        return self
+
 
 def dbscan(points, max_distance: float = 100, min_pts=3):
     cluster_points = [ClusterPoint(p) for p in points]
@@ -17,14 +21,11 @@ def dbscan(points, max_distance: float = 100, min_pts=3):
     for i, l in enumerate(tree.query_ball_point(points, max_distance)):
         cluster_points[i].linked = {cluster_points[x] for x in l if x != i}
 
-    def build_cluster(current_cluster):
-        current_cluster[0].done = True
+    def scan(current_cluster):
         for current_point in current_cluster:
-            for linked_point in current_point.linked:
-                if not linked_point.done:
-                    current_cluster.append(linked_point)
-                    linked_point.done = True
+            current_cluster.extend(
+                [linked_point.include() for linked_point in current_point.linked if not linked_point.done])
 
         return current_cluster
 
-    return [build_cluster([cp]) for cp in cluster_points if not cp.done and len(cp.linked) >= min_pts]
+    return [scan([cp.include()]) for cp in cluster_points if not cp.done and len(cp.linked) >= min_pts]
