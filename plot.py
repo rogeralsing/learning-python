@@ -29,6 +29,6 @@ def plot_points(plt, color, points):
 
 def plot_skeleton(plt, color, c):
     for p in c:
-        for child in p.linked:
+        for child in p.neighbours:
             line = [p.xy, child.xy]
             plt.plot(*zip(*line), color=color, alpha=0.5, linewidth=1)

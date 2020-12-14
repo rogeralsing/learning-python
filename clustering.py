@@ -4,11 +4,11 @@ from scipy.spatial import KDTree
 class ClusterPoint:
     def __init__(self, xy):
         self.xy = xy
-        self.linked = set()
-        self.done = False
+        self.neighbours = set()
+        self.taken = False
 
-    def include(self):
-        self.done = True
+    def take(self):
+        self.taken = True
         return self
 
 
@@ -19,13 +19,12 @@ def dbscan(points, max_distance: float = 100, min_pts=3):
     # build ClusterPoints from the resulting data
     tree = KDTree(points)
     for i, l in enumerate(tree.query_ball_point(points, max_distance)):
-        cluster_points[i].linked = {cluster_points[x] for x in l if x != i}
+        cluster_points[i].neighbours = {cluster_points[x] for x in l if x != i}
 
-    def scan(current_cluster):
-        for current_point in current_cluster:
-            current_cluster.extend(
-                [linked_point.include() for linked_point in current_point.linked if not linked_point.done])
+    def scan(cluster):
+        for point in cluster:
+            cluster.extend([n.take() for n in point.neighbours if not n.taken])
 
-        return current_cluster
+        return cluster
 
-    return [scan([cp.include()]) for cp in cluster_points if not cp.done and len(cp.linked) >= min_pts]
+    return [scan([p.take()]) for p in cluster_points if not p.taken and len(p.neighbours) >= min_pts]
