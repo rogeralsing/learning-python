@@ -8,7 +8,7 @@ class ClusterPoint:
         self.done = False
 
 
-def cluster(points, max_distance: float = 100):
+def cluster(points, max_distance: float = 100, min_pts=3):
     cluster_points = [ClusterPoint(p) for p in points]
 
     # for every point, get every other point within range
@@ -29,4 +29,4 @@ def cluster(points, max_distance: float = 100):
 
         return current_cluster
 
-    return [recurse(cp, []) for cp in cluster_points if not cp.done]
+    return [recurse(cp, []) for cp in cluster_points if not cp.done and len(cp.linked) >= min_pts]
