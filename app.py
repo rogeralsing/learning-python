@@ -2,7 +2,7 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-from clustering import cluster
+from clustering import dbscan
 from plot import plot
 from shapes import with_convex_hull, with_unions, with_alpha
 
@@ -10,7 +10,7 @@ points = [(random.randint(0, 1000), random.randint(0, 1000))
           for i in range(120)]
 
 start_time = time.time()
-clusters = cluster(points, 100)
+clusters = dbscan(points, 100)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 fig, ax = plt.subplots(3, 1, constrained_layout=True)
