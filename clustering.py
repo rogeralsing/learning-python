@@ -28,13 +28,12 @@ def dbscan(data, max_distance: float = 100, min_pts: int = 2):
 
 def sk_dbscan(data, max_distance: float = 100, min_pts: int = 3):
     points = get_cluster_points(data, max_distance)
-    clustering = DBSCAN(eps=max_distance, min_samples=min_pts).fit(np.array(data))
+    clustering = DBSCAN(eps=max_distance, min_samples=min_pts, algorithm='kd_tree').fit(np.array(data))
     clusters = [list() for _ in range(max(clustering.labels_) + 1)]
 
-    for i, p in enumerate(points):
-        if clustering.labels_[i] != -1:
-            c = clusters[clustering.labels_[i]]
-            c += [p]
+    for p, l in zip(points,clustering.labels_):
+        if l != -1:
+            clusters[l] += [p]
 
     return clusters
 
