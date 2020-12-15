@@ -1,3 +1,5 @@
+from functools import reduce
+
 import numpy as np
 from scipy.spatial import cKDTree
 from sklearn.cluster import DBSCAN
@@ -16,14 +18,15 @@ class ClusterPoint:
 
 def dbscan(data, max_distance: float = 100, min_pts: int = 3):
     points = get_cluster_points(data, max_distance)
+    clusters = []
+    for root in points:
+        if not root.taken and len(root.neighbours) >= min_pts:
+            cluster = [root.take()]
+            for p in cluster:
+                cluster += [n.take() for n in p.neighbours if not n.taken]
+            clusters.append(cluster)
 
-    def scan(cluster):
-        for p in cluster:
-            cluster += [n.take() for n in p.neighbours if not n.taken]
-
-        return cluster
-
-    return [scan([p.take()]) for p in points if not p.taken and len(p.neighbours) >= min_pts]
+    return clusters
 
 
 def sk_dbscan(data, max_distance: float = 100, min_pts: int = 3):
