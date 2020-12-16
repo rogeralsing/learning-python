@@ -1,11 +1,6 @@
 from typing import Set, Dict
 
 
-def take(bag: Set, item: object):
-    bag.remove(item)
-    return item
-
-
 class Node:
     def __init__(self, xy):
         self.xy = xy
