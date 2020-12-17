@@ -107,19 +107,15 @@ def get_minimum_spanning_tree(pairs):
         # merge g2 with g1
         elif g1 != g2:
             # merge graphs
-            l1 = l[g1]
-            l2 = l[g2]
-            l1.append(pair)
-            l1.extend(l2)
-            for p3 in l2:
-                graphs[p3] = g1
+            l[g1].extend(l[g2] + [pair])
+            for pp1, pp2, _ in l[g2]:
+                graphs[pp1] = g1
+                graphs[pp2] = g1
 
-            l2.clear()
+            l[g2] = []
 
         # both p1 and p2 are already part of the same graph, ignore
         elif g1 == g2:
             pass
 
     return [x for x in l if len(x) > 0]
-
-
