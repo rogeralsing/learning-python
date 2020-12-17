@@ -2,8 +2,8 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-from clustering import dbscan, sk_dbscan
-from plot import plot
+from clustering import dbscan, sk_dbscan, get_pairs, get_minimum_spanning_tree
+from plot import plot, plot_tree
 from shapes import with_convex_hull, with_unions, with_alpha
 
 points = [(random.randint(0, 1000), random.randint(0, 1000))
@@ -18,6 +18,14 @@ start_time = time.time()
 sk_clusters = sk_dbscan(points, 100)
 print("SKLEARN --- %s seconds ---" % (time.time() - start_time))
 print("%s clusters" % len(sk_clusters))
+
+
+pairs = get_pairs(clusters[0])
+tree = get_minimum_spanning_tree(pairs)
+print(tree)
+
+plot_tree(plt, 'Blue', tree)
+plt.show()
 
 fig, ax = plt.subplots(4, 1, constrained_layout=True)
 fig.set_figheight(20)

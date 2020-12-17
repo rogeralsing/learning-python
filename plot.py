@@ -34,3 +34,12 @@ def plot_skeleton(plt, color, c):
         for child in p.neighbours:
             line = [p.xy, child.xy]
             plt.plot(*zip(*line), color=color, alpha=0.5, linewidth=1)
+
+
+def plot_tree(plt, color, tree):
+    palette = [color for name, color in colors.TABLEAU_COLORS.items()]
+    for i,graph in enumerate(tree):
+        color = palette[i % len(palette)] if len(graph) > 1 else "#e0e0e0"
+        for p1, p2,_ in graph:
+            line = [p1, p2]
+            plt.plot(*zip(*line), color=color, alpha=0.5, linewidth=1)
