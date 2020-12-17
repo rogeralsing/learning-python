@@ -74,34 +74,28 @@ def get_pairs(nodes):
 
 
 def get_minimum_spanning_tree(pairs):
+
+    # pair is:
+    # ((x1,y1), (x2,y2), distance)
+
     sorted_pairs = sorted(pairs, key=lambda p: p[2])
 
     graphs = {}
     l = []
-    g = 0
     for pair in sorted_pairs:
         (p1, p2, _) = pair
         g1 = graphs.get(p1)
         g2 = graphs.get(p2)
 
-        # none of the points are part of a graph
-        # create a new graph with id "g"
-        if g1 is None and g2 is None:
+        if g1 is None or g2 is None:
+            g = g1 or g2
+            if g is None:
+                g = len(l)
+                l.append([])
+
             graphs[p1] = g
             graphs[p2] = g
-            l.append([pair])
-            g += 1
-
-        # p1 is not part of a graph, p2 is
-        # assign p1 to the same graph as p2
-        elif g1 is None:
-            graphs[p1] = g2
-            l[g2].append(pair)
-
-        # same as above but reverse
-        elif g2 is None:
-            graphs[p2] = g1
-            l[g1].append(pair)
+            l[g].append(pair)
 
         # p1 and p2 are part of different graphs
         # merge g2 with g1
@@ -113,9 +107,5 @@ def get_minimum_spanning_tree(pairs):
                 graphs[pp2] = g1
 
             l[g2] = []
-
-        # both p1 and p2 are already part of the same graph, ignore
-        elif g1 == g2:
-            pass
 
     return [x for x in l if len(x) > 0]
