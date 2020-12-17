@@ -24,9 +24,9 @@ def plot_patch(ax, color, polygon):
 
 
 def plot_points(plt, color, c):
-    sizes = [len(cp.neighbours)*10+5 for cp in c]
+    sizes = [len(cp.neighbours) * 10 + 5 for cp in c]
     points = [cp.xy for cp in c]
-    plt.scatter(*zip(*points), sizes, color='White', edgecolors=color,zorder=10)
+    plt.scatter(*zip(*points), sizes, color='White', edgecolors=color, zorder=10)
 
 
 def plot_skeleton(plt, color, c):
@@ -38,8 +38,14 @@ def plot_skeleton(plt, color, c):
 
 def plot_tree(plt, color, tree):
     palette = [color for name, color in colors.TABLEAU_COLORS.items()]
-    for i,graph in enumerate(tree):
+
+    for i, graph in enumerate(tree):
         color = palette[i % len(palette)] if len(graph) > 1 else "#e0e0e0"
-        for p1, p2,_ in graph:
+        points = set()
+        for p1, p2, _ in graph:
             line = [p1, p2]
             plt.plot(*zip(*line), color=color, alpha=0.5, linewidth=1)
+            points.add(p1)
+            points.add(p2)
+
+        plt.scatter(*zip(*points), color='White', edgecolors=color, zorder=10)
