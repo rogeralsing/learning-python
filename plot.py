@@ -15,7 +15,7 @@ def plot(clusters, f, ax):
 
         plot_patch(ax, color, polygon)
         plot_skeleton(ax, color, c)
-        plot_points(ax, color, points)
+        plot_points(ax, color, c)
 
 
 def plot_patch(ax, color, polygon):
@@ -23,8 +23,10 @@ def plot_patch(ax, color, polygon):
     ax.add_patch(patch)
 
 
-def plot_points(plt, color, points):
-    plt.scatter(*zip(*points), color=color)
+def plot_points(plt, color, c):
+    sizes = [len(cp.neighbours)*10+5 for cp in c]
+    points = [cp.xy for cp in c]
+    plt.scatter(*zip(*points), sizes, color='White', edgecolors=color,zorder=10)
 
 
 def plot_skeleton(plt, color, c):
