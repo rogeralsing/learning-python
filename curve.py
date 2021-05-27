@@ -2,56 +2,40 @@
 import matplotlib.pyplot as plt
 
 
-def calc_line(x1, y1, x2, y2, steps=10):
-    dx = (x2 - x1) / steps
-    dy = (y2 - y1) / steps
-    res = []
-
-    x = x1
-    y = y1
-    for _ in range(0, steps + 1):
-        res.append((x, y))
-        x += dx
-        y += dy
-
-    return res
+def calc_line(p1, p2, steps=10):
+    return [calc_point(p1, p2, i, steps) for i in range(0, steps + 1)]
 
 
-def calc_point(x1, y1, x2, y2, step, steps=10):
-    dx = (x2 - x1) / steps
-    dy = (y2 - y1) / steps
-
-    x = x1 + dx * step
-    y = y1 + dy * step
+def calc_point(p1, p2, step, steps=10):
+    (x1, y1), (x2, y2) = p1, p2
+    x = x1 + (x2 - x1) / steps * step
+    y = y1 + (y2 - y1) / steps * step
 
     return x, y
 
 
-def curve(x1, y1, x2, y2, x3, y3, x4, y4, steps=10):
-    left = calc_line(x1, y1, x2, y2, steps)
-    right = calc_line(x3, y3, x4, y4, steps)
-    top = calc_line(x2, y2, x4, y4, steps)
+def curve(p1, p2, p3, p4, steps=10):
+    left = calc_line(p1, p2, steps)
+    right = calc_line(p4, p3, steps)
+    top = calc_line(p2, p4, steps)
 
-    plt.plot(*zip(*[(x1, y1), (x2, y2), (x4, y4), (x3, y3)]))
+    plt.plot(*zip(*[p1, p2, p4, p3]))
 
     points = []
     for i in range(0, steps + 1):
-        p_left = left[i]
-        p_top = top[i]
-        p_right = right[steps - i]
-
-        p1 = calc_point(p_left[0], p_left[1], p_top[0], p_top[1], i, steps)
-        p2 = calc_point(p_top[0], p_top[1], p_right[0], p_right[1], i, steps)
-        p_final = calc_point(p1[0], p1[1], p2[0], p2[1], i, steps)
+        p_final = calc_point(
+            calc_point(left[i], top[i], i, steps),
+            calc_point(top[i], right[i], i, steps),
+            i, steps)
 
         points.append(p_final)
     plt.plot(*zip(*points))
 
 
-curve(5, 20,
-      0, 30,
-      15, 20,
-      25, 40,
+curve((5, 20),
+      (0, 30),
+      (15, 20),
+      (25, 40),
       20)
 
 plt.show()
