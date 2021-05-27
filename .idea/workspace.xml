@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35c70f2b-207a-4b8c-abde-67c745ca6733" name="Default Changelist" comment="Bézier curve">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/curve.py" beforeDir="false" afterPath="$PROJECT_DIR$/curve.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -131,7 +132,7 @@
       <workItem from="1608289841967" duration="299000" />
       <workItem from="1608932104427" duration="1082000" />
       <workItem from="1622024137409" duration="2097000" />
-      <workItem from="1622131435755" duration="4804000" />
+      <workItem from="1622131435755" duration="5395000" />
     </task>
     <task id="LOCAL−00001" summary="no idea what im doing...">
       <created>1607853342240</created>
@@ -295,7 +296,13 @@
       <option name="presentableId" value="LOCAL−00027" />
       <updated>1622135753397</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL−00028" summary="Bézier curve">
+      <created>1622136861996</created>
+      <option name="number" value="LOCAL−00028" />
+      <option name="presentableId" value="LOCAL−00028" />
+      <updated>1622136861996</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

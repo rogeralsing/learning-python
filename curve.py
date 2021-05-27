@@ -21,35 +21,29 @@ def curve(x1, y1, x2, y2, x3, y3, x4, y4):
     left = calc_line(x1, y1, x2, y2)
     right = calc_line(x3, y3, x4, y4)
     top = calc_line(x2, y2, x4, y4)
-    plt.scatter(*zip(*left), color="blue")
-    plt.scatter(*zip(*right), color="blue")
-    plt.scatter(*zip(*top), color="blue")
 
+    plt.plot(*zip(*[(x1, y1), (x2, y2), (x4, y4), (x3, y3)]))
+
+    points = []
     for i in range(0, 10 + 1):
-        pLeft = left[i]
-        pTop = top[i]
-        pRight = right[10 - i]
+        p_left = left[i]
+        p_top = top[i]
+        p_right = right[10 - i]
 
-        line = [pLeft, pTop]
-        plt.plot(*zip(*line), color="orange")
-
-        line = [pTop, pRight]
-        plt.plot(*zip(*line), color="orange")
-
-        l1 = calc_line(pLeft[0], pLeft[1], pTop[0], pTop[1])
-        p5 = l1[i]
-        l2 = calc_line(pTop[0], pTop[1], pRight[0], pRight[1])
-        p6 = l2[i]
-        line = [p5, p6]
-        plt.plot(*zip(*line), color="green")
-
-        l3 = calc_line(p5[0], p5[1], p6[0], p6[1])
+        l1 = calc_line(p_left[0], p_left[1], p_top[0], p_top[1])
+        p1 = l1[i]
+        l2 = calc_line(p_top[0], p_top[1], p_right[0], p_right[1])
+        p2 = l2[i]
+        l3 = calc_line(p1[0], p1[1], p2[0], p2[1])
         p = l3[i]
-        plt.scatter(*zip(*[p]), [100], color="red")
+
+        points.append(p)
+    plt.plot(*zip(*points))
+
 
 curve(5, 20,
       0, 30,
       15, 20,
-      20, 35)
+      25, 40)
 
 plt.show()
